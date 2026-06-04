@@ -766,7 +766,8 @@ async def main() -> None:
         await tor.close()
 
 
-if __name__ == "__main__":
+def cli_entry() -> None:
+    """Console script entry point for `leakrecon` command (pip install)."""
     try:
         asyncio.run(main())
     except KeyboardInterrupt:
@@ -775,3 +776,8 @@ if __name__ == "__main__":
     except Exception as e:
         console.print(f"\n\n  [bold red]Kritik hata: {e}[/bold red]")
         sys.exit(1)
+
+
+if __name__ == "__main__":
+    cli_entry()
+

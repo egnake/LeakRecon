@@ -79,7 +79,7 @@ LeakRecon operates through several highly specialized modules, each focused on a
 
 ## 🛠️ Installation & Deployment
 
-LeakRecon provides two seamless deployment strategies. Docker is highly recommended to guarantee absolute network isolation and zero-dependency friction.
+LeakRecon provides three deployment strategies. Docker is highly recommended to guarantee absolute network isolation and zero-dependency friction.
 
 ### Method 1: Docker Compose (Recommended)
 
@@ -100,7 +100,29 @@ docker-compose up -d --build
 docker exec -it leakrecon_app python main.py
 ```
 
-### Method 2: Local Python Environment
+### Method 2: Pip Install (Package)
+
+Install directly from GitHub as a Python package:
+
+```bash
+pip install git+https://github.com/egnake/LeakRecon.git
+
+# Run from anywhere
+leakrecon
+```
+
+Or install in development/editable mode:
+
+```bash
+git clone https://github.com/egnake/LeakRecon.git
+cd LeakRecon
+pip install -e ".[dev]"
+
+# Run
+leakrecon
+```
+
+### Method 3: Local Python Environment
 
 Requires Python 3.10+ and an active local Tor proxy service.
 

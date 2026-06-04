@@ -1,5 +1,6 @@
 import os
 import sys
+import random
 from typing import Optional, Any
 
 from rich.console import Console
@@ -11,15 +12,91 @@ from rich import box
 
 console = Console()
 
-BANNER = """[bold red]
+# ── ASCII Art Banner Collection ──────────────────────────────────────────────
+# A random banner is selected on each launch for a fresh visual experience.
+
+BANNERS = [
+    # ── Banner 1: Classic Block Letters ──────────────────────────────────────
+    """[bold red]
   ██╗     ███████╗ █████╗ ██╗  ██╗██████╗ ███████╗ ██████╗ ██████╗ ███╗   ██╗
   ██║     ██╔════╝██╔══██╗██║ ██╔╝██╔══██╗██╔════╝██╔════╝██╔═══██╗████╗  ██║
   ██║     █████╗  ███████║█████╔╝ ██████╔╝█████╗  ██║     ██║   ██║██╔██╗ ██║
   ██║     ██╔══╝  ██╔══██║██╔═██╗ ██╔══██╗██╔══╝  ██║     ██║   ██║██║╚██╗██║
   ███████╗███████╗██║  ██║██║  ██╗██║  ██║███████╗╚██████╗╚██████╔╝██║ ╚████║
-  ╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝[/bold red]
-[dim white]           Dark Web Leak Intelligence · OSINT Reconnaissance Framework[/dim white]
+  ╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝[/bold red]""",
+
+    # ── Banner 2: Cyber Glitch Style ─────────────────────────────────────────
+    """[bold bright_red]
+  ▄▄▌  ▄▄▄ .▄▄▄· ▄ •▄ ▄▄▄  ▄▄▄ . ▄▄·       ▐ ▄
+  ██•  ▀▄.▀·▐█ ▀█ █▌▄▌▪▀▄ █·▀▄.▀·▐█ ▌▪▪     •█▌▐█
+  ██▪  ▐▀▀▪▄▄█▀▀█ ▐▀▀▄·▐▀▀▄ ▐▀▀▪▄██ ▄▄ ▄█▀▄ ▐█▐▐▌
+  ▐█▌▐▌▐█▄▄▌▐█ ▪▐▌▐█.█▌▐█•█▌▐█▄▄▌▐███▌▐█▌.▐▌██▐█▌
+  .▀▀▀  ▀▀▀  ▀  ▀ ·▀  ▀.▀  ▀ ▀▀▀ ·▀▀▀  ▀█▄▀▪▀▀ █▪[/bold bright_red]""",
+
+    # ── Banner 3: Sharp Angles ───────────────────────────────────────────────
+    """[bold red]
+   _         _   _  _____ _____ _____ _____ _____
+  | |   ___ | | | ||  _  | __  |   __|     |     |   ___
+  | |  |  _|| |_| ||    /|    -|   __|   --|  |  |  |   |
+  |____||___||_____||__|__|__|__|_____|_____|_____|  |_|_|[/bold red]
+[bold bright_red]
+      ╔══════════════════════════════════════════════╗
+      ║    Dark Web Leak Intelligence Framework      ║
+      ╚══════════════════════════════════════════════╝[/bold bright_red]""",
+
+    # ── Banner 4: Neon Shadow ────────────────────────────────────────────────
+    """[bold bright_magenta]
+  ╦  ╔═╗╔═╗╦╔═  ╦═╗╔═╗╔═╗╔═╗╔╗╔
+  ║  ║╣ ╠═╣╠╩╗  ╠╦╝║╣ ║  ║ ║║║║
+  ╩═╝╚═╝╩ ╩╩ ╩  ╩╚═╚═╝╚═╝╚═╝╝╚╝[/bold bright_magenta]
+[bold red]
+    ░██████╗████████╗██████╗░██╗██╗░░██╗███████╗
+    ██╔════╝╚══██╔══╝██╔══██╗██║██║░██╔╝██╔════╝
+    ╚█████╗░░░░██║░░░██████╔╝██║█████╔╝░█████╗░░
+    ░╚═══██╗░░░██║░░░██╔══██╗██║██╔═██╗░██╔══╝░░
+    ██████╔╝░░░██║░░░██║░░██║██║██║░╚██╗███████╗
+    ╚═════╝░░░░╚═╝░░░╚═╝░░╚═╝╚═╝╚═╝░░╚═╝╚══════╝[/bold red]""",
+
+    # ── Banner 5: Matrix / Hacker ────────────────────────────────────────────
+    """[bold green]
+    ┌─┐┌─┐┌─┐┬┌─  ┬─┐┌─┐┌─┐┌─┐┌┐┌
+    │  ├┤ ├─┤├┴┐  ├┬┘├┤ │  │ ││││
+    ┴─┘└─┘┘ └┘ └  ┘└─└─┘└─┘└─┘┘└┘[/bold green]
+[bold bright_green]
+  ╔═══════════════════════════════════════════════════════════════════╗
+  ║  [bright_white]01001100 01100101 01100001 01101011 01010010 01100101 01100011[/bright_white]  ║
+  ║           [bold green]>>> DARK WEB INTELLIGENCE ACTIVATED <<<[/bold green]           ║
+  ╚═══════════════════════════════════════════════════════════════════╝[/bold bright_green]""",
+
+    # ── Banner 6: Skull & Crossbones Cyber ───────────────────────────────────
+    """[bold red]
+                      ░░░░░░░░░░░░░░░
+                    ░░░░▒▒▒▒▒▒▒▒▒░░░░░
+                   ░░▒▒▒▒▒▒▒▒▒▒▒▒▒░░░░
+                  ░▒▒▒░░░▒▒▒▒▒░░░▒▒▒░░
+                  ░▒▒▒░░░▒▒▒▒▒░░░▒▒▒░░
+                   ░░▒▒▒▒▒░░░▒▒▒▒▒░░
+                     ░░░▒▒▒▒▒▒▒░░░
+                       ░░▒▒▒▒▒░░[/bold red]
+[bold bright_red]
+     ██▓    ▓█████ ▄▄▄       ██ ▄█▀ ██▀███  ▓█████  ▄████▄  ▒█████   ███▄    █
+    ▓██▒    ▓█   ▀▒████▄     ██▄█▒ ▓██ ▒ ██▒▓█   ▀ ▒██▀ ▀█ ▒██▒  ██▒ ██ ▀█   █
+    ▒██░    ▒███  ▒██  ▀█▄  ▓███▄░ ▓██ ░▄█ ▒▒███   ▒▓█    ▄▒██░  ██▒▓██  ▀█ ██▒
+    ▒██░    ▒▓█  ▄░██▄▄▄▄██ ▓██ █▄ ▒██▀▀█▄  ▒▓█  ▄ ▒▓▓▄ ▄██▒██   ██░▓██▒  ▐▌██▒
+    ░██████▒░▒████▒▓█   ▓██▒▒██▒ █▄░██▓ ▒██▒░▒████▒▒ ▓███▀ ░░ ████▓▒░▒██░   ▓██░
+    ░ ▒░▓  ░░░ ▒░ ░▒▒   ▓▒█░▒ ▒▒ ▓▒░ ▒▓ ░▒▓░░░ ▒░ ░░ ░▒ ▒  ░░ ▒░▒░▒░░ ▒░   ▒ ▒
+    ░ ░ ▒  ░ ░ ░  ░ ▒   ▒▒ ░░ ░▒ ▒░░ ░▒ ░ ▒░ ░ ░  ░  ░  ▒     ░ ▒ ▒░░ ░░   ░ ▒░
+      ░ ░      ░    ░   ▒   ░ ░░ ░ ░  ░  ░      ░  ░        ░ ░ ░ ▒    ░   ░ ░
+        ░  ░   ░  ░     ░  ░░  ░         ░      ░  ░░ ░          ░ ░          ░[/bold bright_red]""",
+]
+
+TAGLINE = """[dim white]           Dark Web Leak Intelligence · OSINT Reconnaissance Framework[/dim white]
 [dim]          ─── Tüm trafik Tor ağı üzerinden · Clearnet API kullanılmaz ───[/dim]"""
+
+
+def get_random_banner() -> str:
+    """Selects and returns a random ASCII art banner with the tagline appended."""
+    return random.choice(BANNERS) + "\n" + TAGLINE
 
 
 MENUS = {
@@ -164,8 +241,8 @@ def clear_screen() -> None:
 
 
 def print_banner() -> None:
-    """Renders the application banner to the terminal."""
-    console.print(BANNER)
+    """Renders a randomly selected application banner to the terminal."""
+    console.print(get_random_banner())
 
 
 def print_separator() -> None:

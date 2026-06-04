@@ -26,6 +26,7 @@ venv/
 .venv/
 env/
 .env/
+.env
 
 # Database
 data/*.db
@@ -49,3 +50,8 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+
+# Packaging
+*.tar.gz
+*.whl
+
